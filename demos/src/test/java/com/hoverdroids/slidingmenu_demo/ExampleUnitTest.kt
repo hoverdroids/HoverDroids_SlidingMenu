@@ -1,4 +1,4 @@
-package com.hoverdroids.hoverdroids_sliding_menu_demo
+package com.hoverdroids.slidingmenu_demo
 
 import org.junit.Test
 

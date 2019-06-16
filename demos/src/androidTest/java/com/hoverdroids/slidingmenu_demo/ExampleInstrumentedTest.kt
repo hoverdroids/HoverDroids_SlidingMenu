@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getTargetContext()
-        assertEquals("com.hoverdroids.hoverdroids_sliding_menu_demo", appContext.packageName)
+        assertEquals("com.hoverdroids.slidingmenu_demo", appContext.packageName)
     }
 }
