@@ -1,1 +1,1 @@
-include ':demos', ':slidingmenu', ':navigationdrawer'
+include ':app', ':navigationdrawer', ':slidingmenu'
