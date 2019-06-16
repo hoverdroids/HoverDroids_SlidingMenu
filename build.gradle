@@ -20,9 +20,8 @@ allprojects {
         google()
         jcenter()
         mavenCentral()
-        maven {
-            url 'https://oss.sonatype.org/content/repositories/snapshots/' //Req. for KotlinKnife
-        }
+        maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }//Req. for KotlinKnife
+        maven { url 'https://jitpack.io'}//Req. for HoverDroids libraries (and many others)
     }
 }
 
