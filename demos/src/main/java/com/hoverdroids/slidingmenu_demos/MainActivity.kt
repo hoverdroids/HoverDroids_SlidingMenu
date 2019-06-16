@@ -1,4 +1,4 @@
-package com.hoverdroids.hoverdroids_slidingmenu
+package com.hoverdroids.slidingmenu_demos
 
 import android.os.Bundle
 import com.google.android.material.floatingactionbutton.FloatingActionButton

@@ -1,4 +1,4 @@
-package com.hoverdroids.hoverdroids_slidingmenu
+package com.hoverdroids.slidingmenu_demos
 
 import androidx.test.InstrumentationRegistry
 import androidx.test.runner.AndroidJUnit4
