@@ -7,7 +7,7 @@ apply plugin: 'kotlin-android-extensions'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId var1
+        applicationId 'com.hoverdroids.slidingmenu_demo'
         minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
@@ -26,6 +26,7 @@ dependencies {
     //Included so that modules are included as subprojects on jitpack (and so they can be used in demos)
     //implementation project(':demos')
     implementation project(':slidingmenu')
+    implementation project(':navigationdrawer')
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -33,7 +34,7 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.2.0-alpha02'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta1'
     implementation 'com.jakewharton:kotterknife:0.1.0-SNAPSHOT'
-    //implementation 'com.github.hoverdroids.HoverDroids_SlidingMenu:slidingmenu:0.0.4'
+
     testImplementation 'junit:junit:4.13-beta-3'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
