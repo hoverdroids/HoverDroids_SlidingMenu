@@ -1,1 +1,1 @@
-# HoverDroids_SlidingMenu
+# HoverDroids SlidingMenu
