@@ -39,4 +39,8 @@ dependencies {
     //referencing local submodules
     implementation project(path: ':slidingmenu')
     implementation project(path: ':navigationdrawer')
+
+    //Reference the modules in your own project as follows:
+    //implementation 'com.github.hoverdroids.HoverDroids_SlidingMenu:slidingmenu:0.0.11'
+    //implementation 'com.github.hoverdroids.HoverDroids_SlidingMenu:navigationdrawer:0.0.11'
 }
