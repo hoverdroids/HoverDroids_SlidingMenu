@@ -9,7 +9,7 @@ import com.hoverdroids.slidingmenu.menu.SlidingMenu;
 
 public class SlidingActivity extends Activity implements SlidingActivityBase {
 
-	private SlidingActivityHelper mHelper;
+	private SlidingActivityHelper slidingActivityHelper;
 
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
@@ -17,8 +17,8 @@ public class SlidingActivity extends Activity implements SlidingActivityBase {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mHelper = new SlidingActivityHelper(this);
-		mHelper.onCreate(savedInstanceState);
+		slidingActivityHelper = new SlidingActivityHelper(this);
+		slidingActivityHelper.onCreate(savedInstanceState);
 	}
 
 	/* (non-Javadoc)
@@ -27,7 +27,7 @@ public class SlidingActivity extends Activity implements SlidingActivityBase {
 	@Override
 	public void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
-		mHelper.onPostCreate(savedInstanceState);
+		slidingActivityHelper.onPostCreate(savedInstanceState);
 	}
 
 	/* (non-Javadoc)
@@ -38,7 +38,7 @@ public class SlidingActivity extends Activity implements SlidingActivityBase {
 		View v = super.findViewById(id);
 		if (v != null)
 			return v;
-		return mHelper.findViewById(id);
+		return slidingActivityHelper.findViewById(id);
 	}
 
 	/* (non-Javadoc)
@@ -47,7 +47,7 @@ public class SlidingActivity extends Activity implements SlidingActivityBase {
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		mHelper.onSaveInstanceState(outState);
+		slidingActivityHelper.onSaveInstanceState(outState);
 	}
 
 	/* (non-Javadoc)
@@ -72,7 +72,7 @@ public class SlidingActivity extends Activity implements SlidingActivityBase {
 	@Override
 	public void setContentView(View v, LayoutParams params) {
 		super.setContentView(v, params);
-		mHelper.registerAboveContentView(v, params);
+		slidingActivityHelper.registerAboveContentView(v, params);
 	}
 
 	/* (non-Javadoc)
@@ -93,49 +93,49 @@ public class SlidingActivity extends Activity implements SlidingActivityBase {
 	 * @see SlidingActivityBase#setBehindContentView(android.view.View, android.view.ViewGroup.LayoutParams)
 	 */
 	public void setBehindContentView(View v, LayoutParams params) {
-		mHelper.setBehindContentView(v, params);
+		slidingActivityHelper.setBehindContentView(v, params);
 	}
 
 	/* (non-Javadoc)
 	 * @see SlidingActivityBase#getSlidingMenu()
 	 */
 	public SlidingMenu getSlidingMenu() {
-		return mHelper.getSlidingMenu();
+		return slidingActivityHelper.getSlidingMenu();
 	}
 
 	/* (non-Javadoc)
 	 * @see SlidingActivityBase#toggle()
 	 */
 	public void toggle() {
-		mHelper.toggle();
+		slidingActivityHelper.toggle();
 	}
 
 	/* (non-Javadoc)
 	 * @see SlidingActivityBase#showAbove()
 	 */
 	public void showContent() {
-		mHelper.showContent();
+		slidingActivityHelper.showContent();
 	}
 
 	/* (non-Javadoc)
 	 * @see SlidingActivityBase#showBehind()
 	 */
 	public void showMenu() {
-		mHelper.showMenu();
+		slidingActivityHelper.showMenu();
 	}
 
 	/* (non-Javadoc)
 	 * @see SlidingActivityBase#showSecondaryMenu()
 	 */
 	public void showSecondaryMenu() {
-		mHelper.showSecondaryMenu();
+		slidingActivityHelper.showSecondaryMenu();
 	}
 
 	/* (non-Javadoc)
 	 * @see SlidingActivityBase#setSlidingActionBarEnabled(boolean)
 	 */
 	public void setSlidingActionBarEnabled(boolean b) {
-		mHelper.setSlidingActionBarEnabled(b);
+		slidingActivityHelper.setSlidingActionBarEnabled(b);
 	}
 
 	/* (non-Javadoc)
@@ -143,7 +143,7 @@ public class SlidingActivity extends Activity implements SlidingActivityBase {
 	 */
 	@Override
 	public boolean onKeyUp(int keyCode, KeyEvent event) {
-		boolean b = mHelper.onKeyUp(keyCode, event);
+		boolean b = slidingActivityHelper.onKeyUp(keyCode, event);
 		if (b) return b;
 		return super.onKeyUp(keyCode, event);
 	}

@@ -6,7 +6,7 @@ import com.hoverdroids.slidingmenu.menu.SlidingMenu.CanvasTransformer;
 
 public class CanvasTransformerBuilder {
 
-	private CanvasTransformer mTrans;
+	private CanvasTransformer canvasTransformerBuilder;
 
 	private static Interpolator lin = new Interpolator() {
 		public float getInterpolation(float t) {
@@ -15,8 +15,8 @@ public class CanvasTransformerBuilder {
 	};
 
 	private void initTransformer() {
-		if (mTrans == null)
-			mTrans = new CanvasTransformer() {
+		if (canvasTransformerBuilder == null)
+			canvasTransformerBuilder = new CanvasTransformer() {
 			public void transformCanvas(Canvas canvas, float percentOpen) {	}
 		};
 	}
@@ -31,15 +31,15 @@ public class CanvasTransformerBuilder {
 			final int openedY, final int closedY,
 			final int px, final int py, final Interpolator interp) {
 		initTransformer();
-		mTrans = new CanvasTransformer() {
+		canvasTransformerBuilder = new CanvasTransformer() {
 			public void transformCanvas(Canvas canvas, float percentOpen) {
-				mTrans.transformCanvas(canvas, percentOpen);
+				canvasTransformerBuilder.transformCanvas(canvas, percentOpen);
 				float f = interp.getInterpolation(percentOpen);
 				canvas.scale((openedX - closedX) * f + closedX,
 						(openedY - closedY) * f + closedY, px, py);
 			}			
 		};
-		return mTrans;
+		return canvasTransformerBuilder;
 	}
 
 	public CanvasTransformer rotate(final int openedDeg, final int closedDeg, 
@@ -50,15 +50,15 @@ public class CanvasTransformerBuilder {
 	public CanvasTransformer rotate(final int openedDeg, final int closedDeg, 
 			final int px, final int py, final Interpolator interp) {
 		initTransformer();
-		mTrans = new CanvasTransformer() {
+		canvasTransformerBuilder = new CanvasTransformer() {
 			public void transformCanvas(Canvas canvas, float percentOpen) {
-				mTrans.transformCanvas(canvas, percentOpen);
+				canvasTransformerBuilder.transformCanvas(canvas, percentOpen);
 				float f = interp.getInterpolation(percentOpen);
 				canvas.rotate((openedDeg - closedDeg) * f + closedDeg, 
 						px, py);
 			}			
 		};
-		return mTrans;
+		return canvasTransformerBuilder;
 	}
 
 	public CanvasTransformer translate(final int openedX, final int closedX, 
@@ -69,26 +69,26 @@ public class CanvasTransformerBuilder {
 	public CanvasTransformer translate(final int openedX, final int closedX, 
 			final int openedY, final int closedY, final Interpolator interp) {
 		initTransformer();
-		mTrans = new CanvasTransformer() {
+		canvasTransformerBuilder = new CanvasTransformer() {
 			public void transformCanvas(Canvas canvas, float percentOpen) {
-				mTrans.transformCanvas(canvas, percentOpen);
+				canvasTransformerBuilder.transformCanvas(canvas, percentOpen);
 				float f = interp.getInterpolation(percentOpen);
 				canvas.translate((openedX - closedX) * f + closedX,
 						(openedY - closedY) * f + closedY);
 			}			
 		};
-		return mTrans;
+		return canvasTransformerBuilder;
 	}
 
 	public CanvasTransformer concatTransformer(final CanvasTransformer t) {
 		initTransformer();
-		mTrans = new CanvasTransformer() {
+		canvasTransformerBuilder = new CanvasTransformer() {
 			public void transformCanvas(Canvas canvas, float percentOpen) {
-				mTrans.transformCanvas(canvas, percentOpen);
+				canvasTransformerBuilder.transformCanvas(canvas, percentOpen);
 				t.transformCanvas(canvas, percentOpen);
 			}			
 		};
-		return mTrans;
+		return canvasTransformerBuilder;
 	}
 
 }

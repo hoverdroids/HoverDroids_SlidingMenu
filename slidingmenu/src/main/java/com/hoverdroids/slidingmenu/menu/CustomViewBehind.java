@@ -21,16 +21,16 @@ public class CustomViewBehind extends ViewGroup {
 	private static final String TAG = "CustomViewBehind";
 
 	private static final int MARGIN_THRESHOLD = 48; // dips//TODO CHRIS this needs to be a setting
-	private int mTouchMode = SlidingMenu.TOUCHMODE_MARGIN;
+	private int touchMode = SlidingMenu.TOUCHMODE_MARGIN;
 
 	private CustomViewAbove mViewAbove;
 
-	private View mContent;
-	private View mSecondaryContent;
-	private int mMarginThreshold;
-	private int mWidthOffset;
-	private CanvasTransformer mTransformer;
-	private boolean mChildrenEnabled;
+	private View content;
+	private View secondaryContent;
+	private int marginThreshold;
+	private int widthOffset;
+	private CanvasTransformer transformer;
+	private boolean childrenEnabled;
 
 	public CustomViewBehind(Context context) {
 		this(context, null);
@@ -38,7 +38,7 @@ public class CustomViewBehind extends ViewGroup {
 
 	public CustomViewBehind(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		mMarginThreshold = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 
+		marginThreshold = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 
 				MARGIN_THRESHOLD, getResources().getDisplayMetrics());
 	}
 
@@ -47,35 +47,35 @@ public class CustomViewBehind extends ViewGroup {
 	}
 
 	public void setCanvasTransformer(CanvasTransformer t) {
-		mTransformer = t;
+		transformer = t;
 	}
 
 	public void setWidthOffset(int i) {
-		mWidthOffset = i;
+		widthOffset = i;
 		requestLayout();
 	}
 	
 	public void setMarginThreshold(int marginThreshold) {
-		mMarginThreshold = marginThreshold;
+		this.marginThreshold = marginThreshold;
 	}
 	
 	public int getMarginThreshold() {
-		return mMarginThreshold;
+		return marginThreshold;
 	}
 
 	public int getBehindWidth() {
-		return mContent.getWidth();
+		return content.getWidth();
 	}
 
 	public void setContent(View v) {
-		if (mContent != null)
-			removeView(mContent);
-		mContent = v;
-		addView(mContent);
+		if (content != null)
+			removeView(content);
+		content = v;
+		addView(content);
 	}
 
 	public View getContent() {
-		return mContent;
+		return content;
 	}
 
 	/**
@@ -83,42 +83,42 @@ public class CustomViewBehind extends ViewGroup {
 	 * @param v the right menu
 	 */
 	public void setSecondaryContent(View v) {
-		if (mSecondaryContent != null)
-			removeView(mSecondaryContent);
-		mSecondaryContent = v;
-		addView(mSecondaryContent);
+		if (secondaryContent != null)
+			removeView(secondaryContent);
+		secondaryContent = v;
+		addView(secondaryContent);
 	}
 
 	public View getSecondaryContent() {
-		return mSecondaryContent;
+		return secondaryContent;
 	}
 
 	public void setChildrenEnabled(boolean enabled) {
-		mChildrenEnabled = enabled;
+		childrenEnabled = enabled;
 	}
 
 	@Override
 	public void scrollTo(int x, int y) {
 		super.scrollTo(x, y);
-		if (mTransformer != null)
+		if (transformer != null)
 			invalidate();
 	}
 
 	@Override
 	public boolean onInterceptTouchEvent(MotionEvent e) {
-		return !mChildrenEnabled;
+		return !childrenEnabled;
 	}
 
 	@Override
 	public boolean onTouchEvent(MotionEvent e) {
-		return !mChildrenEnabled;
+		return !childrenEnabled;
 	}
 
 	@Override
 	protected void dispatchDraw(Canvas canvas) {
-		if (mTransformer != null) {
+		if (transformer != null) {
 			canvas.save();
-			mTransformer.transformCanvas(canvas, mViewAbove.getPercentOpen());
+			transformer.transformCanvas(canvas, mViewAbove.getPercentOpen());
 			super.dispatchDraw(canvas);
 			canvas.restore();
 		} else
@@ -129,9 +129,9 @@ public class CustomViewBehind extends ViewGroup {
 	protected void onLayout(boolean changed, int l, int t, int r, int b) {
 		final int width = r - l;
 		final int height = b - t;
-		mContent.layout(0, 0, width-mWidthOffset, height);
-		if (mSecondaryContent != null)
-			mSecondaryContent.layout(0, 0, width-mWidthOffset, height);
+		content.layout(0, 0, width-widthOffset, height);
+		if (secondaryContent != null)
+			secondaryContent.layout(0, 0, width-widthOffset, height);
 	}
 
 	@Override
@@ -139,11 +139,11 @@ public class CustomViewBehind extends ViewGroup {
 		int width = getDefaultSize(0, widthMeasureSpec);
 		int height = getDefaultSize(0, heightMeasureSpec);
 		setMeasuredDimension(width, height);
-		final int contentWidth = getChildMeasureSpec(widthMeasureSpec, 0, width-mWidthOffset);
+		final int contentWidth = getChildMeasureSpec(widthMeasureSpec, 0, width-widthOffset);
 		final int contentHeight = getChildMeasureSpec(heightMeasureSpec, 0, height);
-		mContent.measure(contentWidth, contentHeight);
-		if (mSecondaryContent != null)
-			mSecondaryContent.measure(contentWidth, contentHeight);
+		content.measure(contentWidth, contentHeight);
+		if (secondaryContent != null)
+			secondaryContent.measure(contentWidth, contentHeight);
 	}
 
 	private int mMode;
@@ -157,10 +157,10 @@ public class CustomViewBehind extends ViewGroup {
 
 	public void setMode(int mode) {
 		if (mode == SlidingMenu.LEFT || mode == SlidingMenu.RIGHT) {
-			if (mContent != null)
-				mContent.setVisibility(View.VISIBLE);
-			if (mSecondaryContent != null)
-				mSecondaryContent.setVisibility(View.INVISIBLE);
+			if (content != null)
+				content.setVisibility(View.VISIBLE);
+			if (secondaryContent != null)
+				secondaryContent.setVisibility(View.INVISIBLE);
 		}
 		mMode = mode;
 	}
@@ -223,8 +223,8 @@ public class CustomViewBehind extends ViewGroup {
 			scrollTo((int)(getBehindWidth() - getWidth() + 
 					(x-getBehindWidth())*mScrollScale), y);
 		} else if (mMode == SlidingMenu.LEFT_RIGHT) {
-			mContent.setVisibility(x >= content.getLeft() ? View.INVISIBLE : View.VISIBLE);
-			mSecondaryContent.setVisibility(x <= content.getLeft() ? View.INVISIBLE : View.VISIBLE);
+			content.setVisibility(x >= content.getLeft() ? View.INVISIBLE : View.VISIBLE);
+			secondaryContent.setVisibility(x <= content.getLeft() ? View.INVISIBLE : View.VISIBLE);
 			vis = x == 0 ? View.INVISIBLE : View.VISIBLE;
 			if (x <= content.getLeft()) {
 				scrollTo((int)((x + getBehindWidth())*mScrollScale), y);				
@@ -286,22 +286,22 @@ public class CustomViewBehind extends ViewGroup {
 		int left = content.getLeft();
 		int right = content.getRight();
 		if (mMode == SlidingMenu.LEFT) {
-			return (x >= left && x <= mMarginThreshold + left);
+			return (x >= left && x <= marginThreshold + left);
 		} else if (mMode == SlidingMenu.RIGHT) {
-			return (x <= right && x >= right - mMarginThreshold);
+			return (x <= right && x >= right - marginThreshold);
 		} else if (mMode == SlidingMenu.LEFT_RIGHT) {
-			return (x >= left && x <= mMarginThreshold + left) || 
-					(x <= right && x >= right - mMarginThreshold);
+			return (x >= left && x <= marginThreshold + left) || 
+					(x <= right && x >= right - marginThreshold);
 		}
 		return false;
 	}
 
 	public void setTouchMode(int i) {
-		mTouchMode = i;
+		touchMode = i;
 	}
 
 	public boolean menuOpenTouchAllowed(View content, int currPage, float x) {
-		switch (mTouchMode) {
+		switch (touchMode) {
 		case SlidingMenu.TOUCHMODE_FULLSCREEN:
 			return true;
 		case SlidingMenu.TOUCHMODE_MARGIN:

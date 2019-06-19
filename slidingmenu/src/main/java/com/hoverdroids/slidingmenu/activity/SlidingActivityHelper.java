@@ -12,19 +12,19 @@ import com.hoverdroids.slidingmenu.R;
 
 public class SlidingActivityHelper {
 
-	private Activity mActivity;
+	private Activity activity;
 
-	private SlidingMenu mSlidingMenu;
+	private SlidingMenu slidingMenu;
 
-	private View mViewAbove;
+	private View viewAbove;
 
-	private View mViewBehind;
+	private View viewBehind;
 
-	private boolean mBroadcasting = false;
+	private boolean isBroadcasting = false;
 
-	private boolean mOnPostCreateCalled = false;
+	private boolean onPostCreateCalled = false;
 
-	private boolean mEnableSlide = true;
+	private boolean enableSlide = true;
 
 	/**
 	 * Instantiates a new SlidingActivityHelper.
@@ -32,16 +32,16 @@ public class SlidingActivityHelper {
 	 * @param activity the associated activity
 	 */
 	public SlidingActivityHelper(Activity activity) {
-		mActivity = activity;
+		this.activity = activity;
 	}
 
 	/**
-	 * Sets mSlidingMenu as a newly inflated SlidingMenu. Should be called within the activitiy's onCreate()
+	 * Sets slidingMenu as a newly inflated SlidingMenu. Should be called within the activitiy's onCreate()
 	 *
 	 * @param savedInstanceState the saved instance state (unused)
 	 */
 	public void onCreate(Bundle savedInstanceState) {
-		mSlidingMenu = (SlidingMenu) LayoutInflater.from(mActivity).inflate(R.layout.slidingmenu, null);
+		slidingMenu = (SlidingMenu) LayoutInflater.from(activity).inflate(R.layout.slidingmenu, null);
 	}
 
 	/**
@@ -50,15 +50,15 @@ public class SlidingActivityHelper {
 	 * @param savedInstanceState the saved instance state (unused)
 	 */
 	public void onPostCreate(Bundle savedInstanceState) {
-		if (mViewBehind == null || mViewAbove == null) {
+		if (viewBehind == null || viewAbove == null) {
 			throw new IllegalStateException("Both setBehindContentView must be called " +
 					"in onCreate in addition to setContentView.");
 		}
 
-		mOnPostCreateCalled = true;
+		onPostCreateCalled = true;
 
-		mSlidingMenu.attachToActivity(mActivity, 
-				mEnableSlide ? SlidingMenu.SLIDING_WINDOW : SlidingMenu.SLIDING_CONTENT);
+		slidingMenu.attachToActivity(activity, 
+				enableSlide ? SlidingMenu.SLIDING_WINDOW : SlidingMenu.SLIDING_CONTENT);
 		
 		final boolean open;
 		final boolean secondary;
@@ -73,12 +73,12 @@ public class SlidingActivityHelper {
 			public void run() {
 				if (open) {
 					if (secondary) {
-						mSlidingMenu.showSecondaryMenu(false);
+						slidingMenu.showSecondaryMenu(false);
 					} else {
-						mSlidingMenu.showMenu(false);
+						slidingMenu.showMenu(false);
 					}
 				} else {
-					mSlidingMenu.showContent(false);					
+					slidingMenu.showContent(false);					
 				}
 			}
 		});
@@ -92,9 +92,10 @@ public class SlidingActivityHelper {
 	 * false if you want the ActionBar to stay in place
 	 */
 	public void setSlidingActionBarEnabled(boolean slidingActionBarEnabled) {
-		if (mOnPostCreateCalled)
+		if (onPostCreateCalled) {
 			throw new IllegalStateException("enableSlidingActionBar must be called in onCreate.");
-		mEnableSlide = slidingActionBarEnabled;
+		}
+		enableSlide = slidingActionBarEnabled;
 	}
 
 	/**
@@ -105,8 +106,8 @@ public class SlidingActivityHelper {
 	 */
 	public View findViewById(int id) {
 		View v;
-		if (mSlidingMenu != null) {
-			v = mSlidingMenu.findViewById(id);
+		if (slidingMenu != null) {
+			v = slidingMenu.findViewById(id);
 			if (v != null)
 				return v;
 		}
@@ -121,8 +122,8 @@ public class SlidingActivityHelper {
 	 * @param outState Bundle in which to place your saved state.
 	 */
 	public void onSaveInstanceState(Bundle outState) {
-		outState.putBoolean("SlidingActivityHelper.open", mSlidingMenu.isMenuShowing());
-		outState.putBoolean("SlidingActivityHelper.secondary", mSlidingMenu.isSecondaryMenuShowing());
+		outState.putBoolean("SlidingActivityHelper.open", slidingMenu.isMenuShowing());
+		outState.putBoolean("SlidingActivityHelper.secondary", slidingMenu.isSecondaryMenuShowing());
 	}
 
 	/**
@@ -132,8 +133,9 @@ public class SlidingActivityHelper {
 	 * @param params LayoutParams for that view (unused)
 	 */
 	public void registerAboveContentView(View v, LayoutParams params) {
-		if (!mBroadcasting)
-			mViewAbove = v;
+		if (!isBroadcasting) {
+			viewAbove = v;
+		}
 	}
 
 	/**
@@ -146,8 +148,8 @@ public class SlidingActivityHelper {
 	 * @param v The desired content to display.
 	 */
 	public void setContentView(View v) {
-		mBroadcasting = true;
-		mActivity.setContentView(v);
+		isBroadcasting = true;
+		activity.setContentView(v);
 	}
 
 	/**
@@ -158,8 +160,8 @@ public class SlidingActivityHelper {
 	 * @param layoutParams Layout parameters for the view. (unused)
 	 */
 	public void setBehindContentView(View view, LayoutParams layoutParams) {
-		mViewBehind = view;
-		mSlidingMenu.setMenu(mViewBehind);
+		viewBehind = view;
+		slidingMenu.setMenu(viewBehind);
 	}
 
 	/**
@@ -168,28 +170,28 @@ public class SlidingActivityHelper {
 	 * @return the SlidingMenu associated with this activity.
 	 */
 	public SlidingMenu getSlidingMenu() {
-		return mSlidingMenu;
+		return slidingMenu;
 	}
 
 	/**
 	 * Toggle the SlidingMenu. If it is open, it will be closed, and vice versa.
 	 */
 	public void toggle() {
-		mSlidingMenu.toggle();
+		slidingMenu.toggle();
 	}
 
 	/**
 	 * Close the SlidingMenu and show the content view.
 	 */
 	public void showContent() {
-		mSlidingMenu.showContent();
+		slidingMenu.showContent();
 	}
 
 	/**
 	 * Open the SlidingMenu and show the menu view.
 	 */
 	public void showMenu() {
-		mSlidingMenu.showMenu();
+		slidingMenu.showMenu();
 	}
 
 	/**
@@ -197,7 +199,7 @@ public class SlidingActivityHelper {
 	 * if there is only one.
 	 */
 	public void showSecondaryMenu() {
-		mSlidingMenu.showSecondaryMenu();
+		slidingMenu.showSecondaryMenu();
 	}
 
 	/**
@@ -208,11 +210,10 @@ public class SlidingActivityHelper {
 	 * @return true, if successful
 	 */
 	public boolean onKeyUp(int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_BACK && mSlidingMenu.isMenuShowing()) {
+		if (keyCode == KeyEvent.KEYCODE_BACK && slidingMenu.isMenuShowing()) {
 			showContent();
 			return true;
 		}
 		return false;
 	}
-
 }
